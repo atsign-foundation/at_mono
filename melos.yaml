@@ -1,0 +1,29 @@
+name: at_poly_as_mono
+
+packages:
+  # at_server
+  - modules/at_server/at_persistence/at_persistence_spec/*
+  - modules/at_server/at_root/at_persistence_root_server/*
+  - modules/at_server/at_root/at_root_server/*
+  - modules/at_server/at_secondary/at_persistence_secondary_server/*
+  - modules/at_server/at_secondary/at_secondary_server/*
+  - modules/at_server/at_server_spec/*
+  # at_client_sdk
+  - modules/at_client_sdk/at_client/*
+  - modules/at_client_sdk/at_client_mobile/*
+  # at_libraries
+  - modules/at_libraries/at_*/*
+  - modules/at_libraries/base2e15/*
+  - modules/at_libraries/dartutf7/*
+  - modules/at_libraries/redis-dart/*
+  # at_widgets
+  - modules/at_widgets/at_*/*
+  # at_tools
+  - modules/at_tools/at_*/*
+  # at_app
+  - modules/at_app/packages/*/*
+
+scripts:
+  modules:add: sh tools/modules-add.sh
+  modules:update: sh tools/modules-update.sh
+  postmodules:update: melos bootstrap

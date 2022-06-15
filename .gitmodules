@@ -1,0 +1,18 @@
+[submodule "modules/at_server"]
+	path = modules/at_server
+	url = https://github.com/atsign-foundation/at_server.git
+[submodule "modules/at_client_sdk"]
+	path = modules/at_client_sdk
+	url = https://github.com/atsign-foundation/at_client_sdk.git
+[submodule "modules/at_libraries"]
+	path = modules/at_libraries
+	url = https://github.com/atsign-foundation/at_libraries.git
+[submodule "modules/at_widgets"]
+	path = modules/at_widgets
+	url = https://github.com/atsign-foundation/at_widgets.git
+[submodule "modules/at_tools"]
+	path = modules/at_tools
+	url = https://github.com/atsign-foundation/at_tools.git
+[submodule "modules/at_app"]
+	path = modules/at_app
+	url = https://github.com/atsign-foundation/at_app.git
