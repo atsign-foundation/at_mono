@@ -1,0 +1,24 @@
+name: melos bootstrap
+description: Installs flutter & melos, then runs melos bootstrap
+
+inputs:
+  build_id:
+    required: false
+    description: Optional build key to use as a cache key for flutter
+
+runs:
+  using: composite
+  steps:
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+        cache: ${{ inputs.build_id != "" }}
+        cache-key: ${{ inputs.build_id }}
+    
+    - name: Install melos
+      run: dart pub global activate melos
+      shell: bash
+
+    - name: Bootstrap project with melos
+      run: dart pub global run melos bootstrap
+      shell: bash
