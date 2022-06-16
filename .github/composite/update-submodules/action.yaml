@@ -8,12 +8,13 @@ runs:
       shell: bash
       env:
         MODULE: ${{ inputs.module }}
+        TOKEN: ${{ github.token }}
       # Update each in parallel
       # Then wait on each process id to ensure all updates are completed before moving on
       run: |
         source ./tools/REPOS.sh
         for i in ${REPOS//,/ }; do
-          git submodule update --init --remote --reference "https://github.com/atsign-foundation/$i.git" -- "modules/$i" &
+          git submodule update --init --remote -- "modules/$i" &
           pids[${i}]=$!
         done;
 
