@@ -26,4 +26,4 @@ packages:
 scripts:
   modules:add: sh tools/modules-add.sh
   modules:update: sh tools/modules-update.sh
-  postmodules:update: melos bootstrap
+  
