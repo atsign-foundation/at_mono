@@ -1,0 +1,18 @@
+name: Update submodule
+description: Update a submodule in this repository
+
+inputs:
+  module:
+    required: true
+    description: The name of the module in modules/
+
+runs:
+  using: composite
+  steps:
+    - name: Update module
+      shell: bash
+      env:
+        MODULE: ${{ inputs.module }}
+        TOKEN: ${{ github.token }}
+      run: |
+        git submodule update --init --remote -- "modules/$MODULE";
