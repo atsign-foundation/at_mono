@@ -15,7 +15,7 @@ jobs:
       commit_ref: ${{ steps.commit_id.outputs.changes_detected && steps.commit_id.outputs.commit_hash || github.sha }}
       build_id: ${{ steps.build.outputs.build_id }}
 
-    if: ${{ github.repository != 'atsign-foundation/at_mono' }}
+    if: ${{ github.repository == 'atsign-foundation/at_mono' }}
     steps:
       - uses: actions/checkout@v3
 
