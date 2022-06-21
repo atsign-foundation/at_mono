@@ -1,0 +1,224 @@
+{
+  "module-path": "modules",
+  "modules": {
+    "at_server": [
+      "at_persistence_spec",
+      "at_persistence_root_server",
+      "at_root_server",
+      "at_persistence_secondary_server",
+      "at_secondary_server",
+      "at_server_spec"
+    ],
+    "at_client_sdk": [
+      "at_client",
+      "at_client_sdk"
+    ],
+    "at_libraries": [
+      "at_contact",
+      "at_lookup",
+      "at_onboarding_cli",
+      "at_server_status",
+      "base2e15",
+      "dart_utf7",
+      "redis-dart"
+    ],
+    "at_widgets": [
+      "at_backupkey_flutter",
+      "at_chat_flutter",
+      "at_common_flutter",
+      "at_contacts_flutter",
+      "at_contacts_group_flutter",
+      "at_events_flutter",
+      "at_follows_flutter",
+      "at_invitation_flutter",
+      "at_location_flutter",
+      "at_login_flutter",
+      "at_notify_flutter",
+      "at_onboarding_flutter",
+      "at_sync_ui_flutter",
+      "at_theme_flutter"
+    ],
+    "at_tools": [
+      "at_cli",
+      "at_commons",
+      "at_cram",
+      "at_dump_atKeys",
+      "at_hive_recovery",
+      "at_pkam",
+      "at_utils",
+      "at_ve_doctor"
+    ],
+    "at_app": [
+      "at_app",
+      "at_app_bundler",
+      "at_app_create",
+      "at_app_flutter"
+    ]
+  },
+  "packages": {
+    "at_persistence_spec": {
+      "module": "at_server",
+      "path": "at_persistence/at_persistence_spec"
+    },
+    "at_persistence_root_server": {
+      "module": "at_server",
+      "path": "at_root/at_persistence_root_server"
+    },
+    "at_root_server": {
+      "module": "at_server",
+      "path": "at_root/at_root_server"
+    },
+    "at_persistence_secondary_server": {
+      "module": "at_server",
+      "path":"at_secondary/at_persistence_secondary_server"
+    },
+    "at_secondary_server": {
+      "module": "at_server",
+      "path": "at_secondary/at_secondary_server"
+    },
+    "at_server_spec": {
+      "module": "at_server",
+      "path": "at_server_spec"
+    },
+    "at_client": {
+      "module": "at_client_sdk",
+      "path": "at_client"
+    },
+    "at_client_mobile": {
+      "module": "at_client_sdk",
+      "path": "at_client_mobile"
+    },
+    "at_contact": {
+      "module": "at_libraries",
+      "path": "at_contact"
+    },
+    "at_lookup": {
+      "module": "at_libraries",
+      "path": "at_lookup"
+    },
+    "at_onboarding_cli": {
+      "module": "at_libraries",
+      "path": "at_onboarding_cli"
+    },
+    "at_server_status": {
+      "module": "at_libraries",
+      "path": "at_server_status"
+    },
+    "base2e15": {
+      "module": "at_libraries",
+      "path": "base2e15"
+    },
+    "dart_utf7": {
+      "module": "at_libraries",
+      "path": "dart_utf7"
+    },
+    "redis-dart": {
+      "module": "at_libraries",
+      "path": "redis-dart"
+    },
+    "at_backupkey_flutter": {
+      "module": "at_widgets",
+      "path": "at_backupkey_flutter"
+    },
+    "at_chat_flutter": {
+      "module": "at_widgets",
+      "path": "at_chat_flutter"
+    },
+    "at_common_flutter": {
+      "module": "at_widgets",
+      "path": "at_common_flutter"
+    },
+    "at_contacts_flutter": {
+      "module": "at_widgets",
+      "path": "at_contacts_flutter"
+    },
+    "at_contacts_group_flutter": {
+      "module": "at_widgets",
+      "path": "at_contacts_group_flutter"
+    },
+    "at_events_flutter": {
+      "module": "at_widgets",
+      "path": "at_events_flutter"
+    },
+    "at_follows_flutter": {
+      "module": "at_widgets",
+      "path": "at_follows_flutter"
+    },
+    "at_invitation_flutter": {
+      "module": "at_widgets",
+      "path": "at_invitation_flutter"
+    },
+    "at_location_flutter": {
+      "module": "at_widgets",
+      "path": "at_location_flutter"
+    },
+    "at_login_flutter": {
+      "module": "at_widgets",
+      "path": "at_login_flutter"
+    },
+    "at_notify_flutter": {
+      "module": "at_widgets",
+      "path": "at_notify_flutter"
+    },
+    "at_onboarding_flutter": {
+      "module": "at_widgets",
+      "path": "at_onboarding_flutter"
+    },
+    "at_sync_ui_flutter": {
+      "module": "at_widgets",
+      "path": "at_sync_ui_flutter"
+    },
+    "at_theme_flutter": {
+      "module": "at_widgets",
+      "path": "at_theme_flutter"
+    },
+    "at_cli": {
+      "module": "at_tools",
+      "path": "at_cli"
+    },
+    "at_commons": {
+      "module": "at_tools",
+      "path": "at_commons"
+    },
+    "at_cram": {
+      "module": "at_tools",
+      "path": "at_cram"
+    },
+    "at_dump_atKeys": {
+      "module": "at_tools",
+      "path": "at_dump_atKeys"
+    },
+    "at_hive_recovery": {
+      "module": "at_tools",
+      "path": "at_hive_recovery"
+    },
+    "at_pkam": {
+      "module": "at_tools",
+      "path": "at_pkam"
+    },
+    "at_utils": {
+      "module": "at_tools",
+      "path": "at_utils"
+    },
+    "at_ve_doctor": {
+      "module": "at_tools",
+      "path": "at_ve_doctor"
+    },
+    "at_app": {
+      "module": "at_app",
+      "path": "packages/at_app"
+    },
+    "at_app_create": {
+      "module": "at_app",
+      "path": "packages/at_app_create"
+    },
+    "at_app_bundler": {
+      "module": "at_app",
+      "path": "packages/at_app_bundler"
+    },
+    "at_app_flutter": {
+      "module": "at_app",
+      "path": "packages/at_app_flutter"
+    }
+  }
+}
