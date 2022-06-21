@@ -1,0 +1,56 @@
+name: Build
+description: Updates submodule(s), bootstraps, and commits
+
+inputs:
+  module:
+    required: true
+    description: The name of the module in modules/
+
+outputs:
+  build_id:
+    description: The id of the build
+    value: ${{ steps.build.outputs.build_id }}
+  commit_ref:
+    description: The ref of the build commit
+    value: ${{ steps.commit_id.outputs.changes_detected && steps.commit_id.outputs.commit_hash || github.sha }}
+
+runs:
+  using: composite
+  steps:
+    - name: Update all modules
+      if: ${{ inputs.module == '' }}
+      uses: ./.github/composite/update-submodules
+
+    - name: Update single module
+      if: ${{ inputs.module != '' }}
+      uses: ./.github/composite/update-submodule
+      with:
+        module: ${{ inputs.module }}
+    
+    - name: Auto commit submodules update
+      uses: stefanzweifel/git-auto-commit-action@v4
+      id: commit_id
+      with:
+        commit_message: Update submodules
+        create_branch: false
+        branch: trunk
+
+    - name: Echo commit hash (if any) && Set build id
+      shell: bash
+      id: build
+      env:
+        GENERATED_ID: ${{ format('{0}-{1}', github.run_id, github.run_attempt) }}
+      run: |
+        echo Commit hash: ${{ steps.commit_id.outputs.commit_hash }}
+        echo "::set-output name=build_id::$GENERATED_ID"
+
+    - name: Create lock file cache
+      uses: actions/cache@v3
+      with:
+        path: '**/pubspec.lock'
+        key: ${{ steps.build.outputs.build_id }}
+
+    - name: bootstrap
+      uses: ./.github/composite/melos-bootstrap
+      with:
+        build_id: ${{ steps.build.outputs.build_id }}
