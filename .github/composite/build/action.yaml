@@ -43,14 +43,3 @@ runs:
       run: |
         echo Commit hash: ${{ steps.commit_id.outputs.commit_hash }}
         echo "::set-output name=build_id::$GENERATED_ID"
-
-    - name: Create lock file cache
-      uses: actions/cache@v3
-      with:
-        path: '**/pubspec.lock'
-        key: ${{ steps.build.outputs.build_id }}
-
-    - name: bootstrap
-      uses: ./.github/composite/melos-bootstrap
-      with:
-        build_id: ${{ steps.build.outputs.build_id }}
