@@ -1,0 +1,22 @@
+name: Retrieve Build Cache
+description: Retrieve the cached build
+
+inputs:
+  build_id:
+    required: true
+    description: The id of the build
+
+runs:
+  using: composite
+  steps:
+    - name: Retrieve lock file cache
+      uses: actions/cache@v3
+      with:
+        path: '**/pubspec.lock'
+        key: ${{ inputs.build_id }}
+
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+        cache: true
+        cache-key: ${{ inputs.build_id }}

@@ -12,71 +12,33 @@ jobs:
     runs-on: ubuntu-20.04
 
     outputs:
-      commit_ref: ${{ steps.commit_id.outputs.changes_detected && steps.commit_id.outputs.commit_hash || github.sha }}
+      commit_ref: ${{ steps.build.outputs.commit_ref }}
       build_id: ${{ steps.build.outputs.build_id }}
 
     if: ${{ github.repository == 'atsign-foundation/at_mono' }}
     steps:
       - uses: actions/checkout@v3
 
-      - name: Update all modules
-        if: ${{ github.event.inputs.module == '' }}
-        uses: ./.github/composite/update-submodules
-
-      - name: Update single module
-        if: ${{ github.event.inputs.module != '' }}
-        uses: ./.github/composite/update-submodule
+      - name: Build
+        id: build
+        uses: ./.github/composite/build
         with:
           module: ${{ github.event.inputs.module }}
-
-      - name: Auto commit submodules update
-        uses: stefanzweifel/git-auto-commit-action@v4
-        id: commit_id
-        with:
-          commit_message: Update submodules
-          create_branch: false
-          branch: trunk
-
-      - name: Echo commit hash (if any) && Set build id
-        id: build
-        env:
-          GENERATED_ID: ${{ format('{0}-{1}', github.run_id, github.run_attempt) }}
-        run: |
-          echo Commit hash: ${{ steps.commit_id.outputs.commit_hash }}
-          echo "::set-output name=build_id::$GENERATED_ID"
-
-      - name: Create lock file cache
-        uses: actions/cache@v3
-        with:
-          path: '**/pubspec.lock'
-          key: ${{ steps.build.outputs.build_id }}
-
-      - name: bootstrap
-        uses: ./.github/composite/melos-bootstrap
-        with:
-          build_id: ${{ steps.build.outputs.build_id }}
 
   at_server_tests:
     needs: build
     runs-on: ubuntu-20.04
-
     steps:
       - uses: actions/checkout@v3
         with:
           ref: ${{ needs.build.outputs.commit_ref }}
           submodules: recursive
 
-      - name: Retreive lock file cache
-        uses: actions/cache@v3
+      - name: Retrieve build cache
+        uses: ./.github/composite/build
         with:
-          path: '**/pubspec.lock'
-          key: ${{ needs.build.outputs.build_id }}
+          build_id: ${{ needs.build.outputs.build_id }}
 
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          cache: true
-          cache-key: ${{ needs.build.outputs.build_id }}
-
-      - name: "TODO: IMPLEMENT TESTS"
-        run: echo "IMPLEMENT TESTS"
+      - name: "Lockfile Sanity Check"
+        run: |
+          cat ./modules/at_client_sdk/at_client/pubspec.lock | grep -A 6 "at_commons:"

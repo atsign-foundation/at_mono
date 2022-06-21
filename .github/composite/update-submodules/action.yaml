@@ -14,10 +14,5 @@ runs:
       run: |
         source ./tools/REPOS.sh
         for i in ${REPOS//,/ }; do
-          git submodule update --init --remote -- "modules/$i" &
-          pids[${i}]=$!
-        done;
-
-        for pid in ${pids[*]}; do
-          wait $pid
+          git submodule update --init --remote -- "modules/$i"
         done;
