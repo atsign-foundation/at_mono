@@ -39,7 +39,7 @@ runs:
       shell: bash
       id: build
       env:
-        GENERATED_ID: ${{ format('{0}-{1}', github.run_id, github.run_attempt) }}
+        GENERATED_ID: ${{ format('{0}', github.run_id) }}
       run: |
         echo Commit hash: ${{ steps.commit_id.outputs.commit_hash }}
         echo "::set-output name=build_id::$GENERATED_ID"
