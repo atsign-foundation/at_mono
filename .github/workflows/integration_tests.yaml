@@ -35,7 +35,7 @@ jobs:
           submodules: recursive
 
       - name: Retrieve build cache
-        uses: ./.github/composite/build
+        uses: ./.github/composite/retrieve-build-cache
         with:
           build_id: ${{ needs.build.outputs.build_id }}
 
