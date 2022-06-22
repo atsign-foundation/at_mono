@@ -4,8 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       module:
-        required: false
-        description: The single module to update (by default all will be updated)
+        type: choice
+        required: true
+        description: The module(s) to update
+        options:
+          - all
+          - at_server
+          - at_client_sdk
+          - at_libraries
+          - at_widgets
+          - at_tools
+          - at_app
 
 jobs:
   build:

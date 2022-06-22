@@ -4,7 +4,7 @@ description: Updates submodule(s), bootstraps, and commits
 inputs:
   module:
     required: true
-    description: The name of the module in modules/
+    description: The name of the module in modules/ or 'all'
 
 outputs:
   build_id:
@@ -18,11 +18,11 @@ runs:
   using: composite
   steps:
     - name: Update all modules
-      if: ${{ inputs.module == '' }}
+      if: ${{ inputs.module == 'all' }}
       uses: ./.github/composite/update-submodules
 
     - name: Update single module
-      if: ${{ inputs.module != '' }}
+      if: ${{ inputs.module != 'all' }}
       uses: ./.github/composite/update-submodule
       with:
         module: ${{ inputs.module }}
@@ -31,7 +31,7 @@ runs:
       uses: stefanzweifel/git-auto-commit-action@v4
       id: commit_id
       with:
-        commit_message: Update submodules
+        commit_message: 'chore: Update submodules'
         create_branch: false
         branch: trunk
 

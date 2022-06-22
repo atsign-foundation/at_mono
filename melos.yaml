@@ -22,8 +22,4 @@ packages:
   - modules/at_tools/at_*/*
   # at_app
   - modules/at_app/packages/*/*
-
-scripts:
-  modules:add: sh tools/modules-add.sh
-  modules:update: sh tools/modules-update.sh
   
