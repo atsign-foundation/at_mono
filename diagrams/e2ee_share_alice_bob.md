@@ -76,27 +76,27 @@ flowchart TB
     end
     subgraph CSS_a["@alice Cloud Secondary Server"]
         style CSS_a fill:#f80
-        CSS_a.UpdateVerbHandler-->CSS_a.Store
-        CSS_a.Store-->CSS_a.NotifyBobSecondary
+        CSS_a.UpdateVerbHandler-->CSS_a.Store["Store to dataStore"]
+        CSS_a.Store-->CSS_a.NotifyBobSecondary["NotifyBobSecondary"]
         CSS_a.NotifyBobSecondary-->PrepareNotifyCommand
         PrepareNotifyCommand-->ConnectToBobSecondary
-        ConnectToBobSecondary-->CSS_a.SendNotifyCommandToBob
+        ConnectToBobSecondary-->CSS_a.SendNotifyCommandToBobSecondaryServer
     end
-    CSS_a.SendNotifyCommandToBob-->CSS_b
+    CSS_a.SendNotifyCommandToBobSecondaryServer-->CSS_b
     subgraph CSS_b["@bob Cloud Secondary Server"]
         style CSS_b fill:#08f
         CSS_b.NotifyVerbHandler["NotifyVerbHandler"]
         CSS_b.NotifyVerbHandler-->CSS_b.Store["Store to dataStore"]
         CSS_b.NotifyAnyConnectedClients["Notify any connected @bob clients"] 
         CSS_b.Store-->CSS_b.NotifyAnyConnectedClients
-        CSS_b.NotifyAnyConnectedClients-->BobMonitor
     end
     
     subgraph BobClient
         BobMonitor
         BobMonitor-->BobClientTODO
-        BobClientTODO["TODO: Still need to flesh out what happens on @bob client side"]
+        BobClientTODO["TODO: Finish this off. Add the full remaining info about what happens on @bob client side"]
     end
+    CSS_b.NotifyAnyConnectedClients-->BobMonitor
     
     ATCIP-->PRT.transform
     PRT.transform-->SKE.encrypt
