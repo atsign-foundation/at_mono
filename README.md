@@ -1,18 +1,20 @@
 # at_mono
 
-<img width=250px src="https://atsign.dev/assets/img/atPlatform_logo_gray.svg?sanitize=true">
+<img width=250px src="https://atsign.dev/assets/img/atPlatform_logo_gray.svg?sanitize=true" alt="AtPlatform Logo, gray, svg">
 
 [![GitHub License](https://img.shields.io/badge/license-BSD3-blue.svg)](./LICENSE)
 
-This is a poly-as-mono repo used for integration testing of our dart and flutter
-packages.
+This is a poly-as-mono repo which we created for integration testing of our dart and
+flutter packages.
 
 ## Why create something like this?
 
 There are benefits to both poly and mono repo approaches. In this organization,
 we've opted to go with a poly repo which suits most of our development needs.
-One of the main reasons to opt for a mono repo is for integration testing. Hence
-why we've created a poly-as-mono repo to make integration testing easier.
+One of the main reasons to opt for a mono repo is for integration testing, and
+therefore we've created a poly-as-mono repo to make integration testing easier.
+It is also a useful place in which to keep diagrams of end-to-end user journeys,
+code paths etc. which almost always span multiple individual repos.
 
 ## Poly repos included
 
