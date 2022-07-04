@@ -56,6 +56,7 @@ flowchart TB
                         AKE.frsk
                         subgraph AKE.csk["_createSharedKey"]
                             direction TB
+                            GetBobsPublicKey["Get Bob's public key. <br/>This involves sending a plookup command <br/> to @alice's secondary which then does a <br/>lookup on @bob secondary"]
                             GetBobsPublicKey-->CreateAESKey
                             CreateAESKey["CreateAESKey @alice-to-@bob-shared-secret"]
                             CreateAESKey-->EncryptWithBobsPublicKey
