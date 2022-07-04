@@ -1,6 +1,7 @@
 # End-to-end encrypted data sharing between AtSigns
 
-## @alice sharing data with @bob, encrypted so that only @bob can decrypt (aka end-to-end-encrypted or e2ee)
+## Simple logical sequence diagram
+@alice sharing data with @bob, encrypted so that only @bob can decrypt (aka end-to-end-encrypted or e2ee)
 ```mermaid
 sequenceDiagram
     participant @alice
@@ -23,9 +24,9 @@ sequenceDiagram
 ```
 
 ## More detailed code paths / data flow
-Note: This is still simplified, just points you to the code implementation
+Note: This is still a bit simplified, but does enumerate the critical pieces of the code path and data flow
 
-**TODO**: Add all of the GitHub hyperlinks
+**TODO**: Add more hyperlinks to the code on GitHub
 **TODO**: Find a way to keep hyperlinks reasonably up to date given there will be code drift over time
 
 ```mermaid
