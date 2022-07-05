@@ -31,7 +31,6 @@ runs:
       uses: stefanzweifel/git-auto-commit-action@v4
       id: commit_id
       with:
-        token: ${{ secrets.MY_GITHUB_TOKEN }}
         commit_message: 'chore: Update submodules'
         create_branch: false
         branch: trunk
