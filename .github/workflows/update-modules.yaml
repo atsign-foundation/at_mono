@@ -8,12 +8,13 @@ on:
         description: The module(s) to update
         options:
           - all
-          - at_server
+          - at_app
           - at_client_sdk
           - at_libraries
-          - at_widgets
+          - at_server
+          - at_services
           - at_tools
-          - at_app
+          - at_widgets
 
 jobs:
   build:

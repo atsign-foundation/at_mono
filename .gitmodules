@@ -16,3 +16,6 @@
 [submodule "modules/at_app"]
 	path = modules/at_app
 	url = https://github.com/atsign-foundation/at_app.git
+[submodule "modules/at_services"]
+	path = modules/at_services
+	url = https://github.com/atsign-foundation/at_services.git
