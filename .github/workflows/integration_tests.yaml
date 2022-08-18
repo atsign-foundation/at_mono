@@ -33,12 +33,46 @@ jobs:
         id: build
         uses: ./.github/composite/build
         with:
-          module: ${{ github.event.inputs.module }}
+          module: ${{ github.event.inputs.module || 'all' }}
 
       - name: Bootstrap
         uses: ./.github/composite/melos-bootstrap
         with:
           build_id: ${{ steps.build.outputs.build_id }}
+
+  get_package_matrix:
+    needs: build
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.packages.outputs.packages }}
+      build_id: ${{ needs.build.outputs.build_id }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/update-submodules
+      - uses: ./.github/composite/package-matrix
+        id: packages
+
+  analyze_packages:
+    needs: get_package_matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        path: ${{ fromJson(needs.get_matrix.outputs.packages) }}
+    steps:
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: ${{ inputs.build_id != '' }}
+          cache-key: ${{ inputs.build_id }}
+
+      - name: Format package
+        run: |
+          dart format -l 120 ${{ matrix.path }}
+
+      - name: Analyze package
+        run: |
+          dart analyze ${{ matrix.path }}
 
   at_server_tests:
     needs: build
