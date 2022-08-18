@@ -11,7 +11,7 @@ runs:
   steps:
     - uses: subosito/flutter-action@v2
       with:
-        channel: 'stable'
+        channel: 'beta'
         cache: ${{ inputs.build_id != '' }}
         cache-key: ${{ inputs.build_id }}
 
