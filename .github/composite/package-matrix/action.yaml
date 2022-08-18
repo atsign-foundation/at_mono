@@ -1,0 +1,26 @@
+name: package-matrix
+description: Get a matrix of all packages and their paths in this repository.
+
+outputs:
+  packages:
+    description: Output paths
+    value: ${{ steps.paths.outputs.result }}
+
+runs:
+  using: composite
+  steps:
+    - name: Install yq
+      id: setup-yq
+      uses: shiipou/setup-yq-action@v2.0.2
+
+    - id: paths
+      shell: bash
+      run: |
+        declare -a OUT=()
+        for p in $(yq e '.packages.[]' 'melos.yaml'); do
+          if [[ -f "$p/pubspec.yaml" ]]; then
+            OUT+=("$p");
+          fi
+        done
+        RESULT=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${OUT[@]}")
+        echo "::set-output name=result::${RESULT}"

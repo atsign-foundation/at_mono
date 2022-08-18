@@ -1,0 +1,24 @@
+name: print_matrix
+
+on: workflow_dispatch
+
+jobs:
+  get_matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.packages.outputs.packages }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/update-submodules
+      - uses: ./.github/composite/package-matrix
+        id: packages
+  print_matrix:
+    needs: get_matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        path: ${{ fromJson(needs.get_matrix.outputs.packages) }}
+    steps:
+      - run: |
+          echo ${{ matrix.path }}
