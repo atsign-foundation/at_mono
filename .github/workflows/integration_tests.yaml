@@ -58,7 +58,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        path: ${{ fromJson(needs.get_matrix.outputs.packages) }}
+        path: ${{ fromJson(needs.get_package_matrix.outputs.packages) }}
     steps:
       - uses: subosito/flutter-action@v2
         with:
