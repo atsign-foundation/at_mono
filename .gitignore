@@ -2,6 +2,9 @@
 .dart_tool/
 .packages
 
+# iPython notebooks
+.ipynb_checkpoints/
+
 # Conventional directory for build outputs.
 build/
 
