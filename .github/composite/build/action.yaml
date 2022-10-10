@@ -26,14 +26,12 @@ runs:
       uses: ./.github/composite/update-submodule
       with:
         module: ${{ inputs.module }}
-    
+
     - name: Auto commit submodules update
       uses: stefanzweifel/git-auto-commit-action@v4
       id: commit_id
       with:
         commit_message: 'chore: Update submodules'
-        create_branch: false
-        branch: trunk
 
     - name: Echo commit hash (if any) && Set build id
       shell: bash
