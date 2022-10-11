@@ -4,6 +4,14 @@ description: Update the diagrams
 runs:
   using: composite
   steps:
+    - uses: dart-lang/setup-dart@v1.3
+      with:
+        sdk: stable
+
+    - name: Install melos
+      run: dart pub global activate melos
+      shell: bash
+
     - uses: actions/setup-python@v4
       with:
         python-version: '3.9'
