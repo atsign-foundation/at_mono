@@ -7,7 +7,7 @@ from re import sub
 def melos_ls(args:list, ignore_example=True):
   if ignore_example:
     args += ['--ignore=*example*']
-  result = run(['melos', 'ls', '-r'] + args, cwd='../', capture_output=True)
+  result = run(['dart', 'pub', 'global', 'run', 'melos', 'ls', '-r'] + args, cwd='../', capture_output=True)
   print('Command run:', result.args)
   return result.stdout.decode('utf-8'), result.returncode == 0
 
