@@ -14,6 +14,7 @@ runs:
     - uses: yaananth/run-notebook@v2
       env:
         RUNNER: ${{ toJson(runner) }}
+        SECRETS: '{}'
         GITHUB: ${{ toJson(github) }}
       with:
         notebook: ./analysis/package_tree.ipynb
