@@ -30,7 +30,3 @@ scripts:
       git submodule update --init --remote -- "modules/$i"
     done;
   postupdate: melos bootstrap
-
-  # conda environment for analysis
-  conda:update: conda list -n atsign -e > analysis/requirements.txt
-  conda:create: conda create -n atsign --file analysis/requirements.txt
