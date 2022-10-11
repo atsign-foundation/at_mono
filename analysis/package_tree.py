@@ -1,5 +1,5 @@
 from IPython.display import Image, display, SVG
-from subprocess import run
+from subprocess import Popen, PIPE
 from pydot import graph_from_dot_data
 from re import sub
 
@@ -7,9 +7,9 @@ from re import sub
 def melos_ls(args:list, ignore_example=True):
   if ignore_example:
     args += ['--ignore=*example*']
-  result = run(['dart', 'pub', 'global', 'run', 'melos', 'ls', '-r'] + args, cwd='../', capture_output=True)
-  print('Command run:', result.args)
-  return result.stdout.decode('utf-8'), result.returncode == 0
+  process = Popen(['dart', 'pub', 'global', 'run', 'melos', 'ls', '-r'] + args, cwd='../', stdout=PIPE, stderr=PIPE)
+  output, error = process.communicate()
+  return output.decode('utf-8'), process.returncode == 0
 
 
 def main():
