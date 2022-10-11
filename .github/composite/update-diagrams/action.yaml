@@ -8,17 +8,11 @@ runs:
       with:
         python-version: '3.9'
 
-    - run: pip install -r ./analysis/requirements.txt
-      shell: bash
+    - shell: bash
+      run: |
+        pip install -r ./analysis/requirements.txt
+        python ./analysis/package_tree.py
 
-    - uses: yaananth/run-notebook@v2
-      env:
-        RUNNER: ${{ toJson(runner) }}
-        SECRETS: '{}'
-        GITHUB: ${{ toJson(github) }}
-      with:
-        notebook: ./analysis/package_tree.ipynb
-        poll: True
     - uses: actions/upload-artifact@v3
       if: always()
       with:
