@@ -1,12 +1,14 @@
-name: Daily Backup
+name: Daily Jobs
 
 on:
   schedule:
-    - cron: '53 4 * * *' # 4:43 daily
+    - cron: '53 4 * * *' # 4:53 daily
 
 jobs:
   backup:
     runs-on: ubuntu-20.04
+    outputs:
+      branch_name: ${{ steps.branch_name.outputs.generated }}
     steps:
       - uses: actions/checkout@v3
 
@@ -25,3 +27,21 @@ jobs:
         with:
           branch: ${{ steps.branch_name.outputs.generated }}
           sha: ${{ steps.build.outputs.commit_ref }}
+
+  analysis:
+    runs-on: ubuntu-20.04
+    needs:
+      - backup
+    strategy:
+      fail-fast: false
+      matrix:
+        branch:
+          - trunk
+          - ${{ needs.backup.outputs.branch_name }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ matrix.branch }}
+
+      - uses: ./.github/composite/update-diagrams
+

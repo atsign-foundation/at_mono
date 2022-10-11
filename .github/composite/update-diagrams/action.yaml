@@ -1,0 +1,33 @@
+name: Update Diagrams
+description: Update the diagrams
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - run: pip install -r ./analysis/requirements.txt
+      shell: bash
+
+    - uses: yaananth/run-notebook@v2
+      env:
+        RUNNER: ${{ toJson(runner) }}
+        GITHUB: ${{ toJson(github) }}
+      with:
+        notebook: ./analysis/package_tree.ipynb
+        poll: True
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: output
+        path: ${{ RUNNER.temp }}/nb-runner
+      env:
+        RUNNER: ${{ toJson(runner) }}
+
+    - name: Auto commit diagrams
+      uses: stefanzweifel/git-auto-commit-action@v4
+      id: commit_id
+      with:
+        commit_message: 'docs(ci): Update docs'
