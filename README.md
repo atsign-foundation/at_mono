@@ -9,12 +9,7 @@ flutter packages.
 
 ## Why create something like this?
 
-There are benefits to both poly and mono repo approaches. In this organization,
-we've opted to go with a poly repo which suits most of our development needs.
-One of the main reasons to opt for a mono repo is for integration testing, and
-therefore we've created a poly-as-mono repo to make integration testing easier.
-It is also a useful place in which to keep diagrams of end-to-end user journeys,
-code paths etc. which almost always span multiple individual repos.
+See our in-depth explanation [here](https://github.com/atsign-foundation/.github/blob/trunk/at_mono.md).
 
 ## Poly repos included
 
