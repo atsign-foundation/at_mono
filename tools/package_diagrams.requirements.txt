@@ -1,2 +1,1 @@
-graphviz==2.50.0
 pydot==1.4.1
