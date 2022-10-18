@@ -33,7 +33,7 @@ runs:
         TMP: ${{ runner.temp }}
       run: |
         pip install -r ./tools/package_diagrams.requirements.txt
-        python ./tools/package_diagrams.py "$TMP/melos-gviz.gv" "$GITHUB_WORKSPACE"
+        python ./tools/package_diagrams.py "$TMP/melos-gviz.gv" "$GITHUB_WORKSPACE/docs/diagrams"
 
     - name: Auto commit diagrams
       uses: stefanzweifel/git-auto-commit-action@v4
