@@ -29,8 +29,10 @@ def main():
   if len(argv) != 3:
     print('Usage: python package_tree.py <path-to-graphviz-file> <path-to-output-directory>')
   gviz = normalize_gviz(read_contents(argv[1]))
+  print(gviz)
   write_svg(gviz, argv[2]+'/package_tree_by_module.svg')
   gviz=remove_subgraphs(gviz)
+  print(gviz)
   write_svg(gviz, argv[2]+'/package_tree_hierarchical.svg')
 
 if __name__ == '__main__':
