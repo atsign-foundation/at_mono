@@ -26,7 +26,7 @@ def write_svg(gviz:str, path:str) -> None:
   graphs[0].write(path, prog='dot', format='svg')
 
 def main():
-  if len(argv != 3):
+  if len(argv) != 3:
     print('Usage: python package_tree.py <path-to-graphviz-file> <path-to-output-directory>')
   gviz = normalize_gviz(read_contents(argv[1]))
   write_svg(gviz, argv[2]+'/package_tree_by_module.svg')
