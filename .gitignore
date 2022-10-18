@@ -1,3 +1,6 @@
+# Ignore all pubspec.lock files in at_mono
+pubspec.lock
+
 # Files and directories created by pub.
 .dart_tool/
 .packages
