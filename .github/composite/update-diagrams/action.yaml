@@ -4,7 +4,7 @@ description: Update the diagrams
 runs:
   using: composite
   steps:
-    - uses: ./.github/melos-bootstrap
+    - uses: ./.github/composite/melos-bootstrap
 
     - uses: actions/setup-python@v4
       with:
