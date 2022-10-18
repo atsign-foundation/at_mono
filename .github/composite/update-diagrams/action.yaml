@@ -4,7 +4,9 @@ description: Update the diagrams
 runs:
   using: composite
   steps:
-    - uses: ./.github/composite/melos-bootstrap
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
 
     - uses: actions/setup-python@v4
       with:
@@ -17,6 +19,8 @@ runs:
       env:
         TMP: ${{ runner.temp }}
       run: |
+        dart pub global activate melos
+        dart pub global run melos bs --ignore='*example*'
         dart pub global run melos ls -r --json -l --ignore='*example*' >> "$TMP/melos-json.json"
         dart pub global run melos ls -r --graph --ignore='*example*' >> "$TMP/melos-graph.json"
         dart pub global run melos ls -r --gviz --ignore='*example*' >> "$TMP/melos-gviz.gv"

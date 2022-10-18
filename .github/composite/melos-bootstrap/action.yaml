@@ -14,7 +14,7 @@ runs:
         channel: 'stable'
         cache: ${{ inputs.build_id != '' }}
         cache-key: ${{ inputs.build_id }}
-    
+
     - name: Install melos
       run: dart pub global activate melos
       shell: bash

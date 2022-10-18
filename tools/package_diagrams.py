@@ -23,6 +23,7 @@ def remove_subgraphs(gviz:str) -> str:
 
 def write_svg(gviz:str, path:str) -> None:
   graphs = graph_from_dot_data(gviz)
+  print('len(graphs):', len(graphs))
   graphs[0].write(path, prog='dot', format='svg')
 
 def main():
