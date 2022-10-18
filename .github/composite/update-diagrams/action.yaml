@@ -12,8 +12,6 @@ runs:
       with:
         python-version: '3.9'
 
-    - uses: ts-graphviz/setup-graphviz@v1
-
     - name: Run melos analysis
       shell: bash
       env:
