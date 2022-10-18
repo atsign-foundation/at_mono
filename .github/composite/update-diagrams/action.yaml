@@ -23,6 +23,7 @@ runs:
       env:
         TMP: ${{ runner.temp }}
       run: |
+        melos bs
         melos ls -r --json -l --ignore='*example*' >> "$TMP/melos-json.json"
         melos ls -r --graph --ignore='*example*' >> "$TMP/melos-graph.json"
         melos ls -r --gviz --ignore='*example*' >> "$TMP/melos-gviz.gv"
