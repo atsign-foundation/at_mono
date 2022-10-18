@@ -9,7 +9,15 @@ flutter packages.
 
 ## Why create something like this?
 
-See our in-depth explanation [here](https://github.com/atsign-foundation/.github/blob/trunk/at_mono.md).
+There are benefits to both polyrepo and monorepo approaches. In this organization,
+we've opted to go with a hybrid poly-monorepo approach (several smaller monorepos)
+which suits most of our development needs.
+One of the main reasons to opt for a monorepo is for integration testing, and
+therefore we've created a poly-as-mono repo to make integration testing easier.
+It is also a useful place in which to keep diagrams of end-to-end user journeys,
+code paths, dependency trees, etc. which typically span across multiple repos.
+
+Read more in the [in-depth explanation](https://github.com/atsign-foundation/.github/blob/trunk/at_mono.md).
 
 ## Poly repos included
 
