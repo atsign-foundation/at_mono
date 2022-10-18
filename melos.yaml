@@ -1,7 +1,7 @@
 name: at_mono
 
 packages:
-  - modules/*/packages/*
+  - modules/*/packages/*/*
   # at_libraries
   - modules/at_libraries/at_*/*
   - modules/at_libraries/base2e15/*
