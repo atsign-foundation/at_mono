@@ -21,20 +21,22 @@ def remove_subgraphs(gviz:str) -> str:
   gviz += '}\n' # Close the graph
   return gviz
 
-def write_svg(gviz:str, path:str) -> None:
+def write_svg(gviz:str, path:str, scale:tuple) -> None:
   graphs = graph_from_dot_data(gviz)
-  print('len(graphs):', len(graphs))
-  graphs[0].write(path, prog='dot', format='svg')
+  svg = graphs[0].create(prog='dot', format='svg').decode('ascii')
+  svg = sub(r'scale\([\d\.]* [\d\.]*\)', 'scale({0} {1})'.format(scale[0], scale[1]))
+  with open(path) as f:
+    f.write(svg)
+    f.close()
 
 def main():
   if len(argv) != 3:
     print('Usage: python package_tree.py <path-to-graphviz-file> <path-to-output-directory>')
+
   gviz = normalize_gviz(read_contents(argv[1]))
-  print(gviz)
-  write_svg(gviz, argv[2]+'/package_tree_by_module.svg')
+  write_svg(gviz, argv[2]+'/package_tree_by_module.svg', scale=(0.2, 0.2))
   gviz=remove_subgraphs(gviz)
-  print(gviz)
-  write_svg(gviz, argv[2]+'/package_tree_hierarchical.svg')
+  write_svg(gviz, argv[2]+'/package_tree_hierarchical.svg', scale=(0.1, 0.1))
 
 if __name__ == '__main__':
   main()
