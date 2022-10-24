@@ -1,5 +1,5 @@
 from pydot import graph_from_dot_data
-from re import sub
+from re import sub, findall
 from sys import argv
 
 def read_contents(path:str) -> str:
@@ -21,13 +21,29 @@ def remove_subgraphs(gviz:str) -> str:
   gviz += '}\n' # Close the graph
   return gviz
 
-def write_svg(gviz:str, path:str, scale:tuple) -> None:
+def write_svg(gviz:str, path:str) -> None:
   graphs = graph_from_dot_data(gviz)
   svg = graphs[0].create(prog='dot', format='svg').decode('ascii')
-  svg = sub(r'scale\([\d\.]* [\d\.]*\)', 'scale({0} {1})'.format(scale[0], scale[1]), svg)
+  svg = autoscale_svg(svg)
   with open(path, 'w') as f:
     f.write(svg)
     f.close()
+
+def autoscale_svg(svg:str) -> str:
+  scale_regex = r'scale\([\d\.]* [\d\.]*\)'
+
+  vb_regex = r'viewBox="[\d\.]* [\d\.]* ([\d\.]*) ([\d\.]*)"'
+  bg_regex = r'<polygon fill="white" stroke="transparent" points="([-\d\.]*),([-\d\.]*) [-\d\.]*,[-\d\.]* ([-\d\.]*),([-\d\.]*) [-\d\.]*,[-\d\.]* [-\d\.]*,[-\d\.]* "/>'
+
+  vb = sub(vb_regex, r'\1 \2', findall(vb_regex, svg)[0]).split(sep=' ') # (width, height)
+  bg  = sub(bg_regex, r'\1 \2 \3 \4', findall(bg_regex, svg)[0]).split(sep=' ') # coord top left, coord bottom right
+
+  scaled_width = float(bg[2])-float(bg[0])
+  scaled_height = float(bg[3])-float(bg[1])
+
+  scale = min(vb[0]/scaled_width, vb[1]/scaled_height)
+
+  svg = sub(scale_regex, 'scale({0:.2f} {1:.2f})'.format(scale, scale), svg)
 
 def main():
   if len(argv) != 3:
