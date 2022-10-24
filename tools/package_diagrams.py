@@ -24,7 +24,7 @@ def remove_subgraphs(gviz:str) -> str:
 def write_svg(gviz:str, path:str, scale:tuple) -> None:
   graphs = graph_from_dot_data(gviz)
   svg = graphs[0].create(prog='dot', format='svg').decode('ascii')
-  svg = sub(r'scale\([\d\.]* [\d\.]*\)', 'scale({0} {1})'.format(scale[0], scale[1]))
+  svg = sub(r'scale\([\d\.]* [\d\.]*\)', str('scale({0} {1})'.format(scale[0], scale[1])))
   with open(path) as f:
     f.write(svg)
     f.close()
