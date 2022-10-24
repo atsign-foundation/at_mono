@@ -33,17 +33,17 @@ def autoscale_svg(svg:str) -> str:
   scale_regex = r'scale\([\d\.]* [\d\.]*\)'
 
   vb_regex = r'viewBox="[\d\.]* [\d\.]* ([\d\.]*) ([\d\.]*)"'
-  bg_regex = r'<polygon fill="white" stroke="transparent" points="([-\d\.]*),([-\d\.]*) [-\d\.]*,[-\d\.]* ([-\d\.]*),([-\d\.]*) [-\d\.]*,[-\d\.]* [-\d\.]*,[-\d\.]* "/>'
+  bg_regex = r'<polygon fill="white" stroke="transparent" points="([\-\d\.]*),([\-\d\.]*) [\-\d\.]*,[\-\d\.]* ([\-\d\.]*),([\-\d\.]*) [\-\d\.]*,[\-\d\.]* [\-\d\.]*,[\-\d\.]*"\/>'
 
-  vb = sub(vb_regex, r'\1 \2', findall(vb_regex, svg)[0]).split(sep=' ') # (width, height)
-  bg  = sub(bg_regex, r'\1 \2 \3 \4', findall(bg_regex, svg)[0]).split(sep=' ') # coord top left, coord bottom right
+  vb = findall(vb_regex, svg)[0]
+  bg = findall(bg_regex, svg)[0]
 
   scaled_width = float(bg[2])-float(bg[0])
   scaled_height = float(bg[3])-float(bg[1])
 
-  scale = min(vb[0]/scaled_width, vb[1]/scaled_height)
+  scale = abs(min(float(vb[0])/scaled_width, float(vb[1])/scaled_height))
 
-  svg = sub(scale_regex, 'scale({0:.2f} {1:.2f})'.format(scale, scale), svg)
+  return sub(scale_regex, 'scale({0:.2f} {1:.2f})'.format(scale, scale), svg)
 
 def main():
   if len(argv) != 3:
