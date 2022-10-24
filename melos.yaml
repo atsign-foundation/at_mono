@@ -12,8 +12,7 @@ packages:
 
 scripts:
   update: |
-    REPOS="at_server,at_client_sdk,at_libraries,at_widgets,at_tools,at_app,at_services"
-    for i in $(echo $REPOS | sed "s/,/ /g"); do
+    for i in $(echo $(ls modules/) | sed "s/,/ /g"); do
       git submodule update --init --remote -- "modules/$i"
     done;
   postupdate: melos bootstrap
