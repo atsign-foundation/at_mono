@@ -41,7 +41,7 @@ def autoscale_svg(svg:str) -> str:
   scaled_width = float(bg[2])-float(bg[0])
   scaled_height = float(bg[3])-float(bg[1])
 
-  scale = abs(min(float(vb[0])/scaled_width, float(vb[1])/scaled_height))
+  scale = min(abs(float(vb[0])/scaled_width), abs(float(vb[1])/scaled_height))
 
   return sub(scale_regex, 'scale({0:.2f} {1:.2f})'.format(scale, scale), svg)
 
