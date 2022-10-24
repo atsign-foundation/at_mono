@@ -50,9 +50,9 @@ def main():
     print('Usage: python package_tree.py <path-to-graphviz-file> <path-to-output-directory>')
 
   gviz = normalize_gviz(read_contents(argv[1]))
-  write_svg(gviz, argv[2]+'/package_tree_by_module.svg', scale=(0.2, 0.2))
+  write_svg(gviz, argv[2]+'/package_tree_by_module.svg')
   gviz=remove_subgraphs(gviz)
-  write_svg(gviz, argv[2]+'/package_tree_hierarchical.svg', scale=(0.1, 0.1))
+  write_svg(gviz, argv[2]+'/package_tree_hierarchical.svg')
 
 if __name__ == '__main__':
   main()
