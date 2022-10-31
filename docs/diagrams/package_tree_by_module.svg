@@ -20,9 +20,9 @@
 <text text-anchor="middle" x="1888.5" y="-4004.25" font-family="Times,serif" font-size="14.00">modules/at_widgets/packages</text>
 </g>
 <g id="clust3" class="cluster">
-<title>cluster modules/at_tools</title>
-<polygon fill="none" stroke="#1a8d25" points="2847,-67.55 2847,-1308.85 3528,-1308.85 3528,-67.55 2847,-67.55"/>
-<text text-anchor="middle" x="3187.5" y="-1293.65" font-family="Times,serif" font-size="14.00">modules/at_tools</text>
+<title>cluster modules/at_tools/packages</title>
+<polygon fill="none" stroke="#b27a62" points="2847,-67.55 2847,-1308.85 3528,-1308.85 3528,-67.55 2847,-67.55"/>
+<text text-anchor="middle" x="3187.5" y="-1293.65" font-family="Times,serif" font-size="14.00">modules/at_tools/packages</text>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster modules/at_client_sdk/packages</title>
