@@ -1102,15 +1102,15 @@
 <polygon fill="#61d4fc" stroke="#61d4fc" points="1579.9,-1486.85 1580.27,-1476.26 1573.38,-1484.3 1579.9,-1486.85"/>
 </g>
 <!-- at_sync_ui_flutter&#45;&gt;at_client_mobile -->
-<g id="edge141" class="edge">
+<g id="edge140" class="edge">
 <title>at_sync_ui_flutter&#45;&gt;at_client_mobile</title>
-<path fill="none" stroke="#d9577c" stroke-dasharray="5,2" d="M1236.22,-2336.75C1229.22,-2268.66 1203.44,-2018.18 1194.83,-1934.46"/>
+<path fill="none" stroke="#d9577c" d="M1236.22,-2336.75C1229.22,-2268.66 1203.44,-2018.18 1194.83,-1934.46"/>
 <polygon fill="#d9577c" stroke="#d9577c" points="1198.3,-1934.03 1193.79,-1924.44 1191.34,-1934.74 1198.3,-1934.03"/>
 </g>
 <!-- at_sync_ui_flutter&#45;&gt;at_common_flutter -->
-<g id="edge140" class="edge">
+<g id="edge141" class="edge">
 <title>at_sync_ui_flutter&#45;&gt;at_common_flutter</title>
-<path fill="none" stroke="#bf681f" stroke-dasharray="5,2" d="M1230.09,-2336.75C1198.77,-2268.45 1083.28,-2016.64 1045.24,-1933.69"/>
+<path fill="none" stroke="#bf681f" d="M1230.09,-2336.75C1198.77,-2268.45 1083.28,-2016.64 1045.24,-1933.69"/>
 <polygon fill="#bf681f" stroke="#bf681f" points="1048.35,-1932.07 1041,-1924.44 1041.98,-1934.99 1048.35,-1932.07"/>
 </g>
 <!-- at_theme_flutter -->
