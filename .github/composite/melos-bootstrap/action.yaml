@@ -16,7 +16,7 @@ runs:
         cache-key: ${{ inputs.build_id }}
 
     - name: Install melos
-      run: dart pub global activate melos
+      run: dart pub get
       shell: bash
 
     - name: Create lock file cache
@@ -27,5 +27,5 @@ runs:
         key: ${{ inputs.build_id }}
 
     - name: Bootstrap project with melos
-      run: dart pub global run melos bootstrap
+      run: dart run melos bootstrap
       shell: bash
