@@ -12,7 +12,7 @@ runs:
       # Update each in parallel
       # Then wait on each process id to ensure all updates are completed before moving on
       run: |
-        source ./tools/REPOS.sh
+        REPOS="at_server,at_client_sdk,at_libraries,at_widgets,at_tools,at_app"
         for i in ${REPOS//,/ }; do
           git submodule update --init --remote -- "modules/$i"
         done;
