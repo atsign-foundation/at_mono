@@ -2,7 +2,8 @@ name: Daily Jobs
 
 on:
   schedule:
-    - cron: '53 4 * * *' # 4:53 daily
+    - cron: "53 4 * * *" # 4:53 daily
+  workflow_dispatch:
 
 jobs:
   backup:
@@ -15,11 +16,13 @@ jobs:
       - name: Build
         id: build
         uses: ./.github/composite/build
+        with:
+          module: "all"
 
       - name: Generate Branch Name
         id: branch_name
         run: |
-          echo "::set-output name=generated::$(date -I)"
+          echo "generated=$(date -I)" >> $GITHUB_OUTPUT
 
       - uses: peterjgrainger/action-create-branch@v2.2.0
         env:
@@ -45,4 +48,3 @@ jobs:
           submodules: true
 
       - uses: ./.github/composite/update-diagrams
-
