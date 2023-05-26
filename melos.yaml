@@ -1,14 +1,14 @@
 name: at_mono
 
 packages:
-  - modules/*/packages/*/*
+  - modules/*/packages/*
   # at_libraries
-  - modules/at_libraries/at_*/*
-  - modules/at_libraries/base2e15/*
-  - modules/at_libraries/dart_utf7/*
-  - modules/at_libraries/redis-dart/*
+  - modules/at_libraries/at_*
+  - modules/at_libraries/base2e15
+  - modules/at_libraries/dart_utf7
+  - modules/at_libraries/redis-dart
   # at_tools
-  - modules/at_tools/at_*/*
+  - modules/at_tools/at_*
 
 scripts:
   update: |
