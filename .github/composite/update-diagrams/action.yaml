@@ -7,6 +7,8 @@ runs:
     - uses: subosito/flutter-action@v2
       with:
         channel: 'stable'
+        cache: ${{ inputs.build_id != '' }}
+        cache-key: ${{ inputs.build_id }}
 
     - uses: actions/setup-python@v4
       with:
@@ -14,15 +16,25 @@ runs:
 
     - uses: ts-graphviz/setup-graphviz@v1
 
+    - name: Install melos
+      run: dart pub get
+      shell: bash
+
+    - name: Create lock file cache
+      if: ${{ inputs.build_id != '' }}
+      uses: actions/cache@v3
+      with:
+        path: '**/pubspec.lock'
+        key: ${{ inputs.build_id }}
+
     - name: Run melos analysis
       shell: bash
       env:
         TMP: ${{ runner.temp }}
       run: |
-        dart pub global activate melos
-        dart pub global run melos ls -r --json -l --ignore='*example*' >> "$TMP/melos-json.json"
-        dart pub global run melos ls -r --graph --ignore='*example*' >> "$TMP/melos-graph.json"
-        dart pub global run melos ls -r --gviz --ignore='*example*' >> "$TMP/melos-gviz.gv"
+        dart run melos ls -r --json -l --ignore='*example*' >> "$TMP/melos-json.json"
+        dart run melos ls -r --graph --ignore='*example*' >> "$TMP/melos-graph.json"
+        dart run melos ls -r --gviz --ignore='*example*' >> "$TMP/melos-gviz.gv"
 
     - name: Execute diagram generator
       shell: bash

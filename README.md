@@ -26,5 +26,4 @@ Read more in the [in-depth explanation](https://github.com/atsign-foundation/.gi
 - [at_libraries](https://github.com/atsign-foundation/at_libraries.git)
 - [at_widgets](https://github.com/atsign-foundation/at_widgets.git)
 - [at_tools](https://github.com/atsign-foundation/at_tools.git)
-- [at_app](https://github.com/atsign-foundation/at_app.git)
 
