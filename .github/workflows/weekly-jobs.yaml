@@ -81,4 +81,4 @@ jobs:
 
       - name: create pull request
         run: |
-          gh pr create -B trunk -H ${{ needs.backup.outputs.branch_name }} --title 'ci: weekly jobs'
+          gh pr create -B trunk -H ${{ needs.backup.outputs.branch_name }} --title 'ci: backup ${{ needs.backup.outputs.branch_name }}'
