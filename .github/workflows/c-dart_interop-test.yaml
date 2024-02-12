@@ -1,0 +1,31 @@
+name: C-Dart Interop Tests
+on:
+  workflow_call:
+    inputs:
+      dart_ref:
+        required: false
+        type: string
+        default: trunk
+      c_ref:
+        required: false
+        type: string
+        default: trunk
+  workflow_dispatch:
+    inputs:
+      dart_ref:
+        required: false
+        description: the git ref for the dart packages
+        type: string
+        default: trunk
+      c_ref:
+        required: false
+        description: the git ref for the c packages
+        type: string
+        default: trunk
+
+jobs:
+  at_chops:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+    
