@@ -2,7 +2,6 @@ name: Integration Tests
 
 on:
   workflow_dispatch:
-   
 
 jobs:
   build:
@@ -14,7 +13,7 @@ jobs:
 
     if: ${{ github.repository == 'atsign-foundation/at_mono' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Generate build id
         id: build
@@ -29,7 +28,7 @@ jobs:
     needs: build
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           ref: ${{ needs.build.outputs.commit_ref }}
           submodules: recursive
