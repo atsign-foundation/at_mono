@@ -1,6 +1,7 @@
 name: Weekly Jobs
 
 on:
+  push:
   schedule:
     - cron: "53 4 * * 6" # 4:53 every saturday
   workflow_dispatch:
