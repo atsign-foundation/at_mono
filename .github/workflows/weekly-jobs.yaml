@@ -73,7 +73,15 @@ jobs:
           chmod +w ./docs/diagrams/*
           pip install -r ./tools/package_diagrams.requirements.txt
           python ./tools/package_diagrams.py "$TMP/melos-gviz.gv" "$GITHUB_WORKSPACE/docs/diagrams"
-
+      - name: Authenticate GitHub CLI
+        run: |
+          echo -e ${{ secrets.MY_GITHUB_TOKEN }} | gh auth login --with-token 
       - name: create pull request
         run: |
-          gh pr create -B trunk -H ${{ needs.build_branch.outputs.branch_name }} --title 'ci: backup ${{ needs.backup.outputs.branch_name }}'
+          gh pr create \
+            --base 'trunk' \
+            --head ${{ needs.build_branch.outputs.branch_name }} \
+            --reviewer 'xavierchanth' \
+            --title 'ci: backup ${{ needs.backup.outputs.branch_name }}' \
+            --body 'Sync weekly job' || \
+          echo "Already created?";
