@@ -12,6 +12,7 @@ jobs:
       build_id: ${{ steps.build.outputs.build_id }}
       branch_name: ${{ steps.branch_name.outputs.generated }}
     steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Generate build id
         id: build
         uses: ./.github/composite/build-id
@@ -33,33 +34,26 @@ jobs:
     needs:
       - backup
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           ref: ${{ needs.backup.outputs.branch_name }}
           submodules: true
 
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225 #v2.12.0
         with:
           channel: 'stable'
           cache: ${{ needs.backup.outputs.build_id != '' }}
           cache-key: ${{ needs.backup.outputs.build_id }}
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
         with:
           python-version: '3.9'
 
-      - uses: ts-graphviz/setup-graphviz@v1
+      - uses: ts-graphviz/setup-graphviz@d5b2b6b67007094b256f3fd2fa6cf0ac41ceef25 # v2.0.0
 
       - name: Install melos
         run: dart pub get
         shell: bash
-
-      - name: Create lock file cache
-        if: ${{ needs.backup.outputs.build_id != '' }}
-        uses: actions/cache@v3
-        with:
-          path: '**/pubspec.lock'
-          key: ${{ needs.backup.outputs.build_id }}
 
       - name: Run melos analysis
         shell: bash
