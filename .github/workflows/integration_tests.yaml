@@ -16,9 +16,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Build
+      - name: Generate build id
         id: build
-        uses: ./.github/composite/build
+        uses: ./.github/composite/build-id
 
       - name: Bootstrap
         uses: ./.github/composite/melos-bootstrap
@@ -34,8 +34,8 @@ jobs:
           ref: ${{ needs.build.outputs.commit_ref }}
           submodules: recursive
 
-      - name: Retrieve build cache
-        uses: ./.github/composite/retrieve-build-cache
+      - name: Retrieve melos cache
+        uses: ./.github/composite/get-melos-cache
         with:
           build_id: ${{ needs.build.outputs.build_id }}
 

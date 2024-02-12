@@ -9,29 +9,26 @@ jobs:
   backup:
     runs-on: ubuntu-20.04
     outputs:
+      build_id: ${{ steps.build.outputs.build_id }}
       branch_name: ${{ steps.branch_name.outputs.generated }}
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Build
+      - name: Generate build id
         id: build
-        uses: ./.github/composite/build
-        with:
-          module: "all"
+        uses: ./.github/composite/build-id
 
       - name: Generate Branch Name
         id: branch_name
         run: |
           echo "generated=$(date -I)" >> $GITHUB_OUTPUT
 
-      - uses: peterjgrainger/action-create-branch@v2.2.0
+      - uses: peterjgrainger/action-create-branch@64aa569aea81305305c6e92bd236d8c427debff8 # v2.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           branch: ${{ steps.branch_name.outputs.generated }}
           sha: ${{ steps.build.outputs.commit_ref }}
 
-  pacakge-analysis:
+  package-analysis:
     runs-on: ubuntu-20.04
     needs:
       - backup
@@ -40,11 +37,12 @@ jobs:
         with:
           ref: ${{ needs.backup.outputs.branch_name }}
           submodules: true
+
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          cache: ${{ inputs.build_id != '' }}
-          cache-key: ${{ inputs.build_id }}
+          cache: ${{ needs.backup.outputs.build_id != '' }}
+          cache-key: ${{ needs.backup.outputs.build_id }}
 
       - uses: actions/setup-python@v4
         with:
@@ -57,11 +55,11 @@ jobs:
         shell: bash
 
       - name: Create lock file cache
-        if: ${{ inputs.build_id != '' }}
+        if: ${{ needs.backup.outputs.build_id != '' }}
         uses: actions/cache@v3
         with:
           path: '**/pubspec.lock'
-          key: ${{ inputs.build_id }}
+          key: ${{ needs.backup.outputs.build_id }}
 
       - name: Run melos analysis
         shell: bash

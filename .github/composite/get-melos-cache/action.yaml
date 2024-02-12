@@ -1,5 +1,5 @@
-name: Retrieve Build Cache
-description: Retrieve the cached build
+name: Get melos cache
+description: Retrieve the cached pub packages from melos bootstrap
 
 inputs:
   build_id:

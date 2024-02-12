@@ -5,6 +5,9 @@ inputs:
   build_id:
     required: false
     description: Optional build key to use as a cache key for flutter
+  melos_args:
+    required: false
+    description: Additional args passed to "melos bootstrap"
 
 runs:
   using: composite
@@ -19,7 +22,7 @@ runs:
       run: dart pub get
       shell: bash
 
-    - name: Create lock file cache
+    - name: Create/retrieve lock file cache
       if: ${{ inputs.build_id != '' }}
       uses: actions/cache@v3
       with:
