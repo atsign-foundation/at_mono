@@ -78,6 +78,7 @@ jobs:
           echo -e ${{ secrets.MY_GITHUB_TOKEN }} | gh auth login --with-token 
       - name: create pull request
         run: |
+          git commit -am "ci(automated): checkin weekly job"
           gh pr create \
             --base 'trunk' \
             --head ${{ needs.build_branch.outputs.branch_name }} \
