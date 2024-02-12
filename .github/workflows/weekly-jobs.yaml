@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  backup:
+  build_branch:
     runs-on: ubuntu-20.04
     outputs:
       build_id: ${{ steps.build.outputs.build_id }}
@@ -32,18 +32,18 @@ jobs:
   package-analysis:
     runs-on: ubuntu-20.04
     needs:
-      - backup
+      - build_branch
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
-          ref: ${{ needs.backup.outputs.branch_name }}
+          ref: ${{ needs.build_branch.outputs.branch_name }}
           submodules: true
 
       - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225 #v2.12.0
         with:
           channel: 'stable'
-          cache: ${{ needs.backup.outputs.build_id != '' }}
-          cache-key: ${{ needs.backup.outputs.build_id }}
+          cache: ${{ needs.build_branch.outputs.build_id != '' }}
+          cache-key: ${{ needs.build_branch.outputs.build_id }}
 
       - uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
         with:
@@ -75,4 +75,4 @@ jobs:
 
       - name: create pull request
         run: |
-          gh pr create -B trunk -H ${{ needs.backup.outputs.branch_name }} --title 'ci: backup ${{ needs.backup.outputs.branch_name }}'
+          gh pr create -B trunk -H ${{ needs.build_branch.outputs.branch_name }} --title 'ci: backup ${{ needs.backup.outputs.branch_name }}'
