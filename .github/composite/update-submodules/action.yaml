@@ -4,22 +4,12 @@ description: Update all submodules in this repository
 runs:
   using: composite
   steps:
-    - name: Update dart modules
+    - name: Update modules
       shell: bash
       env:
         TOKEN: ${{ github.token }}
       run: |
-        DART_MODULES="at_server,at_client_sdk,at_libraries,at_widgets,at_tools"
-        for i in ${DART_MODULES//,/ }; do
-          git submodule update --init --remote -- "modules/dart/$i"
-        done;
-
-    - name: Update c modules
-      shell: bash
-      env:
-        TOKEN: ${{ github.token }}
-      run: |
-        C_MODULES="at_c"
-        for i in ${C_MODULES//,/ }; do
-          git submodule update --init --remote -- "modules/c/$i"
+        for i in $(git submodule status | awk 'sub(/^ */, "")' | awk -F ' ' '{print($2)}'); do
+          echo "updating module $i"
+          git submodule update --init --remote -- "$i"
         done;

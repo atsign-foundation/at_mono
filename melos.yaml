@@ -12,7 +12,8 @@ packages:
 
 scripts:
   update: |
-    for i in $(ls modules/* | sed "s/,/ /g" | grep -v -e ":" -e "^$"); do
-      git submodule update --init --remote -- "modules/$i"
+    for i in $(git submodule status | awk 'sub(/^ */, "")' | awk -F ' ' '{print($2)}'); do
+      echo "updating module $i"
+      git submodule update --init --remote -- "$i"
     done;
   postupdate: melos bootstrap
