@@ -2,18 +2,7 @@ name: Integration Tests
 
 on:
   workflow_dispatch:
-    inputs:
-      module:
-        type: choice
-        required: true
-        description: The module(s) to update
-        options:
-          - all
-          - at_server
-          - at_client_sdk
-          - at_libraries
-          - at_widgets
-          - at_tools
+   
 
 jobs:
   build:
@@ -30,15 +19,13 @@ jobs:
       - name: Build
         id: build
         uses: ./.github/composite/build
-        with:
-          module: ${{ github.event.inputs.module }}
 
       - name: Bootstrap
         uses: ./.github/composite/melos-bootstrap
         with:
           build_id: ${{ steps.build.outputs.build_id }}
 
-  at_server_tests:
+  at_server_sanity_check:
     needs: build
     runs-on: ubuntu-20.04
     steps:

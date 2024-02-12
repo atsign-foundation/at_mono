@@ -12,7 +12,7 @@ packages:
 
 scripts:
   update: |
-    for i in $(echo $(ls modules/) | sed "s/,/ /g"); do
+    for i in $(ls modules/* | sed "s/,/ /g" | grep -v -e ":" -e "^$"); do
       git submodule update --init --remote -- "modules/$i"
     done;
   postupdate: melos bootstrap
