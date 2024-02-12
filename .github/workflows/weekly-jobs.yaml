@@ -81,6 +81,7 @@ jobs:
           git config --global user.name library-action[bot]
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
           git commit -am "ci(automated): checkin weekly job"
+          git push origin ${{ needs.backup.outputs.branch_name }}
 
       - name: create pull request
         run: |
