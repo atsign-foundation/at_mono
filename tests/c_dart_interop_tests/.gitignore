@@ -1,0 +1,40 @@
+.DS_Store
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+cmake_install.cmake
+.cache/
+
+build/
+install/
+bin/
+
+lib/**/lib*.a
+
+sdkconfig
+
+test/*/test_*
+#
+# Melos
+*.iml
+pubspec_overrides.yaml
+
+# Files and directories created by pub.
+.dart_tool/
+.packages
+
+# Jetbrains
+.idea/*
+
+#vscode
+.vscode/*
+!.vscode/launch.json
+
+# atPlatform stuff
+*.hive
+*.hash
+*.atKeys
+
