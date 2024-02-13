@@ -1,18 +1,19 @@
 name: at_mono
 
 packages:
-  - modules/*/packages/*
+  - modules/dart/*/packages/*
   # at_libraries
-  - modules/at_libraries/at_*
-  - modules/at_libraries/base2e15
-  - modules/at_libraries/dart_utf7
-  - modules/at_libraries/redis-dart
+  - modules/dart/at_libraries/at_*
+  - modules/dart/at_libraries/base2e15
+  - modules/dart/at_libraries/dart_utf7
+  - modules/dart/at_libraries/redis-dart
   # at_tools
-  - modules/at_tools/at_*
+  - modules/dart/at_tools/at_*
 
 scripts:
   update: |
-    for i in $(echo $(ls modules/) | sed "s/,/ /g"); do
-      git submodule update --init --remote -- "modules/$i"
+    for i in $(git submodule status | awk 'sub(/^ */, "")' | awk -F ' ' '{print($2)}'); do
+      echo "updating module $i"
+      git submodule update --init --remote -- "$i"
     done;
   postupdate: melos bootstrap

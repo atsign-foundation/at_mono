@@ -7,12 +7,9 @@ runs:
     - name: Update modules
       shell: bash
       env:
-        MODULE: ${{ inputs.module }}
         TOKEN: ${{ github.token }}
-      # Update each in parallel
-      # Then wait on each process id to ensure all updates are completed before moving on
       run: |
-        REPOS="at_server,at_client_sdk,at_libraries,at_widgets,at_tools"
-        for i in ${REPOS//,/ }; do
-          git submodule update --init --remote -- "modules/$i"
+        for i in $(git submodule status | awk 'sub(/^ */, "")' | awk -F ' ' '{print($2)}'); do
+          echo "updating module $i"
+          git submodule update --init --remote -- "$i"
         done;

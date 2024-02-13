@@ -2,18 +2,6 @@ name: Integration Tests
 
 on:
   workflow_dispatch:
-    inputs:
-      module:
-        type: choice
-        required: true
-        description: The module(s) to update
-        options:
-          - all
-          - at_server
-          - at_client_sdk
-          - at_libraries
-          - at_widgets
-          - at_tools
 
 jobs:
   build:
@@ -25,30 +13,28 @@ jobs:
 
     if: ${{ github.repository == 'atsign-foundation/at_mono' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - name: Build
+      - name: Generate build id
         id: build
-        uses: ./.github/composite/build
-        with:
-          module: ${{ github.event.inputs.module }}
+        uses: ./.github/composite/build-id
 
       - name: Bootstrap
         uses: ./.github/composite/melos-bootstrap
         with:
           build_id: ${{ steps.build.outputs.build_id }}
 
-  at_server_tests:
+  at_server_sanity_check:
     needs: build
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           ref: ${{ needs.build.outputs.commit_ref }}
           submodules: recursive
 
-      - name: Retrieve build cache
-        uses: ./.github/composite/retrieve-build-cache
+      - name: Retrieve melos cache
+        uses: ./.github/composite/get-melos-cache
         with:
           build_id: ${{ needs.build.outputs.build_id }}
 
