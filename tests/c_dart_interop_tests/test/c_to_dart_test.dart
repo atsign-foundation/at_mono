@@ -14,10 +14,6 @@ final _libExtension = {
   'windows': 'dll',
 }[Platform.operatingSystem];
 
-final libPath =
-    path.join(Directory.current.path, 'build', 'libatchops.$_libExtension');
-final dylib = c.DynamicLibrary.open(libPath);
-
 typedef atchops_aesctr_encrypt = c.Int Function(
   c.Pointer<Utf8>,
   c.UnsignedLong,
@@ -42,60 +38,68 @@ typedef AtchopsAesctrEncrypt = int Function(
   c.Pointer<c.UnsignedLong>,
 );
 
+final libPath =
+    path.join(Directory.current.path, 'build', 'libatchops.$_libExtension');
+final dylib = c.DynamicLibrary.open(libPath);
+final encryptPointer = dylib
+    .lookup<c.NativeFunction<atchops_aesctr_encrypt>>('atchops_aesctr_encrypt');
+final encrypt = encryptPointer.asFunction<AtchopsAesctrEncrypt>();
+
 const _key = "1DPU9OP3CYvamnVBMwGgL7fm8yB1klAap0Uc5Z9R79g=";
 const _plaintext = "I like to eat pizza 123";
+final _iv = "1234567890ABCDEF";
+final _ivDart = IV.fromUtf8(_iv);
+
 main() {
   c.Pointer<Utf8> iv;
   c.Pointer<Utf8> buffer;
-  c.Pointer<c.UnsignedLong> outlen;
+  c.Pointer<c.UnsignedLong> outLen;
   test("C encrypt - Dart decrypt", () {
-    // Setup the C function pointer
-    final encryptPointer =
-        dylib.lookup<c.NativeFunction<atchops_aesctr_encrypt>>(
-            'atchops_aesctr_encrypt');
-    final encrypt = encryptPointer.asFunction<AtchopsAesctrEncrypt>();
+    // Make sure that the iv is 16 bytes
+    expect(_iv.length, 16);
 
     // Setup the C function inputs
-    final keybase64 = _key.toNativeUtf8();
+    final keyBase64 = _key.toNativeUtf8();
     final keyLength = _key.length;
     final keyBits = 256;
-    final plaintext = _plaintext.toNativeUtf8();
-    final plaintextLength = _plaintext.length;
-    final bufSize = plaintextLength * 3;
-    iv = calloc
-        .allocate(16)
-        .cast<Utf8>(); // calloc allocates memory as all zeros
+    final plainText = _plaintext.toNativeUtf8();
+    final plainTextLength = _plaintext.length;
+    final bufSize = plainTextLength * 3;
+    iv = _iv.toNativeUtf8();
     buffer = malloc.allocate(bufSize).cast<Utf8>();
-    outlen = malloc.allocate(4).cast<c.UnsignedLong>();
+    outLen = malloc.allocate(4).cast<c.UnsignedLong>();
 
     // Call the C function
-    int res = encrypt(keybase64, keyLength, keyBits, iv, plaintext,
-        plaintextLength, buffer, bufSize, outlen);
+    int res = encrypt(keyBase64, keyLength, keyBits, iv, plainText,
+        plainTextLength, buffer, bufSize, outLen);
 
     // Extract the outputs from the C function
-    final outLen = outlen.value;
-    final ciphertext = buffer.toDartString(length: outLen);
+    final outLenDart = outLen.value;
+    final cipherText = buffer.toDartString(length: outLenDart);
 
     // Free the memory allocated in C
-    calloc.free(iv);
+    malloc.free(keyBase64);
+    malloc.free(plainText);
+    malloc.free(iv);
     malloc.free(buffer);
-    malloc.free(outlen);
+    malloc.free(outLen);
 
     // Validate the encrypt call has a success signal and the ciphertext is not empty
     expect(res, 0);
-    expect(ciphertext, isNotEmpty);
+    expect(cipherText, isNotNull);
+    expect(cipherText, isNotEmpty);
 
     // Setup the Dart decryption inputs
     final key = AESKey(_key);
     final algorithm = AESEncryptionAlgo(key);
-    final iv2 = InitialisationVector(IV.allZerosOfLength(16).bytes);
+    final ivDart = InitialisationVector(_ivDart.bytes);
 
     // Do the Dart decryption and data decoding
-    final cipherBytes = base64Decode(ciphertext);
-    final plainBytes = algorithm.decrypt(cipherBytes, iv: iv2);
-    final plainText2 = utf8.decode(plainBytes);
+    final cipherBytes = base64Decode(cipherText);
+    final plainBytes = algorithm.decrypt(cipherBytes, iv: ivDart);
+    final plainTextOut = utf8.decode(plainBytes);
 
     // Verify the decrypted plaintext is the same as the original plaintext
-    expect(plainText2, _plaintext);
+    expect(plainTextOut, _plaintext);
   });
 }
