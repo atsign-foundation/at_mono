@@ -20,7 +20,7 @@ jobs:
       - name: get atchops c module
         uses: ./.github/composite/update-submodule
         with:
-          module: modules/c/at_c
+          module: c/at_c
       - name: Build C at_chops dll
         run: |
           cmake -S . -B build
@@ -29,7 +29,7 @@ jobs:
       - name: get at_chops dart module
         uses: ./.github/composite/update-submodule
         with:
-          module: modules/dart/at_libraries
+          module: dart/at_libraries
       - name: Dart test
         run: |
           dart pub get
