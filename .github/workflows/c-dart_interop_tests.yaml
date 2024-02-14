@@ -1,5 +1,6 @@
 name: C/Dart Interoperability Tests
 on:
+  push:
   workflow_dispatch:
 
 permissions:
