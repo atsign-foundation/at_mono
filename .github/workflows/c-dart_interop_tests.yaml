@@ -1,0 +1,34 @@
+name: C/Dart Interoperability Tests
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  at_chops:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: tests/c_dart_interop_tests
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3 # v1.6.2
+
+      - name: get atchops c module
+        uses: ./.github/composite/update-submodule
+        with:
+          module: modules/c/at_c
+      - name: Build C at_chops dll
+        run: |
+          cmake -S . -B build
+          sudo cmake --build build
+  
+      - name: get at_chops dart module
+        uses: ./.github/composite/update-submodule
+        with:
+          module: modules/dart/at_libraries
+      - name: Dart test
+        run: |
+          dart pub get
+          dart test
+
