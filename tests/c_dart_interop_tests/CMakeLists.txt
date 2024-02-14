@@ -19,6 +19,7 @@ set_target_properties(${P_NAME} PROPERTIES
 )
 
 target_link_libraries(${P_NAME} PUBLIC
+  atchops::atchops
   MbedTLS::mbedcrypto
   uuid4::uuid4-static
 )
