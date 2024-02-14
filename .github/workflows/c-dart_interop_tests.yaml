@@ -1,6 +1,5 @@
 name: C/Dart Interoperability Tests
 on:
-  push:
   workflow_dispatch:
 
 permissions:
@@ -21,6 +20,8 @@ jobs:
         uses: ./.github/composite/update-submodule
         with:
           module: c/at_c
+
+      # TODO: get dll to build in github actions
       - name: Build C at_chops dll
         working-directory: ${{ env.working-directory }}
         run: |
