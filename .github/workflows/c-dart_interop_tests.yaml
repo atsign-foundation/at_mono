@@ -22,6 +22,7 @@ jobs:
         with:
           module: c/at_c
       - name: Build C at_chops dll
+        working-directory: ${{ env.working-directory }}
         run: |
           cmake -S . -B build
           sudo cmake --build build
@@ -31,6 +32,7 @@ jobs:
         with:
           module: dart/at_libraries
       - name: Dart test
+        working-directory: ${{ env.working-directory }}
         run: |
           dart pub get
           dart test
