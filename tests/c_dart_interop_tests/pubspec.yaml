@@ -1,0 +1,13 @@
+name: c_dart_interop_tests
+publish_to: none
+
+environment: 
+  sdk: "^3.0.0"
+
+dependencies:
+  at_chops:
+    path: ../../modules/dart/at_libraries/packages/at_chops
+  cryptography: ^2.7.0
+  ffi: ^2.1.0
+dev_dependencies:
+  test: ^1.25.0
