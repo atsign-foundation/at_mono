@@ -39,7 +39,7 @@ typedef AtchopsAesctrEncrypt = int Function(
 );
 
 final libPath =
-    path.join(Directory.current.path, 'build', 'libatchops.$_libExtension');
+    path.join(Directory.current.path, 'atchops', 'libatchops.$_libExtension');
 final dylib = c.DynamicLibrary.open(libPath);
 final encryptPointer = dylib
     .lookup<c.NativeFunction<atchops_aesctr_encrypt>>('atchops_aesctr_encrypt');

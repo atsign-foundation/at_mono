@@ -19,3 +19,6 @@
 [submodule "c/at_c"]
 	path = modules/c/at_c
 	url = https://github.com/atsign-foundation/at_c.git
+[submodule "misc/noports"]
+	path = modules/misc/noports
+	url = https://github.com/atsign-foundation/noports.git

@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.7 FATAL_ERROR)
 
+# ATCHOPS DLL
 set(P_NAME atchops_dll)
 project(${P_NAME} LANGUAGES C)
 
-set(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../..)
+set(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../..)
 include(${ROOT_DIR}/modules/c/at_c/packages/atchops/CMakeLists.txt)
 
 add_library(${P_NAME} SHARED
