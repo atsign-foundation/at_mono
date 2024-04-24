@@ -49,7 +49,7 @@ jobs:
         with:
           python-version: '3.9'
 
-      - uses: ts-graphviz/setup-graphviz@d5b2b6b67007094b256f3fd2fa6cf0ac41ceef25 # v2.0.0
+      - uses: ts-graphviz/setup-graphviz@b9aef169c1b6942cd337da1988d86d9b5b05d8d6 # v2.0.1
 
       - name: Install melos
         run: dart pub get
