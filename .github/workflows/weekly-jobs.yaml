@@ -106,6 +106,8 @@ jobs:
             --body 'Sync weekly job' || \
           echo "Already created?";
 
+      - run: dart run melos bootstrap
+
       - name: Create dependency report
         run: |
           echo "Summary reports:" | tee ./dependency_reports.txt
