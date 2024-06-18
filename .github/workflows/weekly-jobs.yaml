@@ -110,11 +110,14 @@ jobs:
         run: |
           echo "Summary reports:" | tee ./dependency_reports.txt
           dart run melos exec -- "dart pub outdated --transitive" | tee -a ./dependency_reports.txt
-          echo "\nJSON reports:" tee -a ./dependency_reports.txt
-          dart run melos exec -- "dart pub outdated --json" | tee -a ./dependency_reports.txt
+          # Not a big fan of the json like this, since melos prefixes every line with the package
+          # that it is operating on... so it is not parsable like this...
+          # echo "\nJSON reports:" tee -a ./dependency_reports.txt
+          # dart run melos exec -- "dart pub outdated --json" | tee -a ./dependency_reports.txt
 
       - name: Upload dependency report
         uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
         with:
-          name: ./dependency_report.txt
+          name: dependency_reports.txt
+          path: ./dependency_reports.txt
           if-no-files-found: error
