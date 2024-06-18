@@ -108,7 +108,8 @@ jobs:
 
       - name: Create dependency report
         run: |
-          report_file = "./dependency_reports.txt"
+          report_file="./dependency_reports.txt"
+
           dart run melos exec -- "dart pub outdated --transitive" \
           > $report_file
 
