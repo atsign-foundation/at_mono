@@ -108,14 +108,10 @@ jobs:
 
       - name: Create dependency report
         run: |
-          report_file="./dependency_reports.txt"
-
-          dart run melos exec -- "dart pub outdated --transitive" \
-          > $report_file
-
-          echo "JSON reports: " >>> $report_file
-          dart run melos exec -- "dart pub outdated --json" \
-          >>> $report_file
+          echo "Summary reports:" > ./dependency_reports.txt
+          dart run melos exec -- "dart pub outdated --transitive" >>> ./dependency_reports.txt
+          echo "\nJSON reports:" >>> ./dependency_reports.txt
+          dart run melos exec -- "dart pub outdated --json" >>> ./dependency_reports.txt
 
       - name: Upload dependency report
         uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
