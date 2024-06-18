@@ -92,8 +92,8 @@ jobs:
         run: |
           git config --global user.name library-action[bot]
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
-            git commit -am "ci(automated): checkin weekly job"
-            git push origin ${{ needs.backup.outputs.branch_name }}
+          git commit -am "ci(automated): checkin weekly job"
+          git push origin ${{ needs.backup.outputs.branch_name }}
 
       - name: create pull request
         if: ${{ steps.git-status.outputs.has_changes == 'true' }}
@@ -105,3 +105,19 @@ jobs:
             --title 'ci: backup ${{ needs.backup.outputs.branch_name }}' \
             --body 'Sync weekly job' || \
           echo "Already created?";
+
+      - name: Create dependency report
+        run: |
+          report_file = "./dependency_reports.txt"
+          dart run melos exec -- "dart pub outdated --transitive" \
+          > $report_file
+
+          echo "JSON reports: " >>> $report_file
+          dart run melos exec -- "dart pub outdated --json" \
+          >>> $report_file
+
+      - name: Upload dependency report
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: ./dependency_report.txt
+          if-no-files-found: error
