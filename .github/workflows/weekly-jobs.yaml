@@ -88,7 +88,7 @@ jobs:
           fi
 
       - name: Commit changes
-        if: ${{ steps.git-status.outputs.has_changes == "true" }}
+        if: ${{ steps.git-status.outputs.has_changes == 'true' }}
         run: |
           git config --global user.name library-action[bot]
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
@@ -96,7 +96,7 @@ jobs:
             git push origin ${{ needs.backup.outputs.branch_name }}
 
       - name: create pull request
-        if: ${{ steps.git-status.outputs.has_changes == "true" }}
+        if: ${{ steps.git-status.outputs.has_changes == 'true' }}
         run: |
           gh pr create \
             --base 'trunk' \
