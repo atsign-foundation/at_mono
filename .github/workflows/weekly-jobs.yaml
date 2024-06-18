@@ -41,13 +41,13 @@ jobs:
 
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1 #v2.16.0
         with:
-          channel: 'stable'
+          channel: "stable"
           cache: ${{ needs.build_branch.outputs.build_id != '' }}
           cache-key: ${{ needs.build_branch.outputs.build_id }}
 
       - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
         with:
-          python-version: '3.9'
+          python-version: "3.9"
 
       - uses: ts-graphviz/setup-graphviz@b1de5da23ed0a6d14e0aeee8ed52fdd87af2363c # v2.0.2
 
@@ -74,16 +74,27 @@ jobs:
           python ./tools/package_diagrams.py "$TMP/melos-gviz.gv" "$GITHUB_WORKSPACE/docs/diagrams"
       - name: Authenticate GitHub CLI
         run: |
-          echo -e ${{ secrets.MY_GITHUB_TOKEN }} | gh auth login --with-token 
+          echo -e ${{ secrets.MY_GITHUB_TOKEN }} | gh auth login --with-token
+
+      - name: Check for changes
+        id: git-status
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Commit changes
+        if: ${{ steps.git-status.outputs.has_changes }}
         run: |
           git config --global user.name library-action[bot]
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git commit -am "ci(automated): checkin weekly job"
-          git push origin ${{ needs.backup.outputs.branch_name }}
+            git commit -am "ci(automated): checkin weekly job"
+            git push origin ${{ needs.backup.outputs.branch_name }}
 
       - name: create pull request
+        if: ${{ steps.git-status.outputs.has_changes }}
         run: |
           gh pr create \
             --base 'trunk' \
