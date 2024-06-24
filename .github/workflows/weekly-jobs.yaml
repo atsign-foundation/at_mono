@@ -51,6 +51,8 @@ jobs:
 
       - uses: ts-graphviz/setup-graphviz@b1de5da23ed0a6d14e0aeee8ed52fdd87af2363c # v2.0.2
 
+      - uses: ./.github/composite/update-submodules
+
       - name: Install melos
         run: dart pub get
         shell: bash
