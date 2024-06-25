@@ -112,18 +112,21 @@ jobs:
 
       - name: Create dependency report
         run: |
-          function generate_report() {
-            timestamp=$(date -u +%s);
-            # we truncate input with `head -n 10` before the grep -v
-            # because inverse grep will always process the entire input
-            package=$(dart pub deps | head -n 10 | grep -v 'SDK' | head -n 1 | cut -d' ' -f1 | tr -d '[:space:]');
-            filename="./${timestamp}_${package}_report.txt"
-            dart pub outdated | tee "$filename"
-            dart analyze | tee "$filename"
-            mv $filename "$1"
-          }
+
           mkdir ./dependency_reports
-          dart run melos exec -fo -- generate_report "$(pwd)/dependency_reports/"
+          dart run melos exec -fo -- <<EOF
+            function generate_report() {
+              timestamp=$(date -u +%s);
+              # we truncate input with `head -n 10` before the grep -v
+              # because inverse grep will always process the entire input
+              package=$(dart pub deps | head -n 10 | grep -v 'SDK' | head -n 1 | cut -d' ' -f1 | tr -d '[:space:]');
+              filename="./${timestamp}_${package}_report.txt"
+              dart pub outdated | tee "$filename"
+              dart analyze | tee "$filename"
+              mv $filename "$1"
+            }
+            generate_report "$(pwd)/dependency_reports/"
+          EOF
 
       - name: Upload dependency report
         uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
