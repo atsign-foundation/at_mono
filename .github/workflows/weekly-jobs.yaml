@@ -112,20 +112,20 @@ jobs:
 
       - name: Create dependency report
         run: |
-          echo <<-EOF >./generate_report.sh
-            dst="$1/"
-            timestamp=$(date -u +%s);
-            package=$(dart pub deps | head -n 10 | grep -v 'SDK' | head -n 1 | cut -d' ' -f1 | tr -d '[:space:]');
-            filename="./${timestamp}_${package}_report.txt"
-            echo "running in package: $package"
-            dart pub outdated | tee "$filename"
-            dart analyze | tee "$filename"
-            echo "copying $filename to $dst"
-            mv $filename "$dst"
+          cat <<-EOF >./generate_report.sh
+            dst="$(pwd)/dependency_reports/"
+            timestamp=\$(date -u +%s);
+            package=\$(dart pub deps | head -n 10 | grep -v 'SDK' | head -n 1 | cut -d' ' -f1 | tr -d '[:space:]');
+            filename="./\${timestamp}_\${package}_report.txt"
+            echo "running in package: \$package"
+            dart pub outdated | tee "\$filename"
+            dart analyze | tee "\$filename"
+            echo "copying \$filename to \$dst"
+            mv \$filename "\$dst"
           EOF
-          chmod u+x ./generate_report.sh
+          chmod +x ./generate_report.sh
           mkdir ./dependency_reports
-          dart run melos exec -fo -- "$(pwd)/generate_report.sh \"$(pwd)/dependency_reports\""
+          dart run melos exec -fo -- $(pwd)/generate_report.sh
 
       - name: Upload dependency report
         uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
