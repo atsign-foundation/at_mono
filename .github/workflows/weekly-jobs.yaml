@@ -112,16 +112,24 @@ jobs:
 
       - name: Create dependency report
         run: |
-          echo "Summary reports:" | tee ./dependency_reports.txt
-          dart run melos exec -- "dart pub outdated --transitive" | tee -a ./dependency_reports.txt
-          # Not a big fan of the json like this, since melos prefixes every line with the package
-          # that it is operating on... so it is not parsable like this...
-          # echo "\nJSON reports:" tee -a ./dependency_reports.txt
-          # dart run melos exec -- "dart pub outdated --json" | tee -a ./dependency_reports.txt
+          function generate_report() {
+            timestamp=$(date -u +%s);
+            # we truncate input with `head -n 10` before the grep -v
+            # because inverse grep will always process the entire input
+            package=$(dart pub deps | head -n 10 | grep -v 'SDK' | head -n 1 | cut -d' ' -f1 | tr -d '[:space:]');
+            filename="./${timestamp}_${package}_report.txt"
+            dart pub outdated | tee "$filename"
+            dart analyze | tee "$filename"
+            mv $filename "$1"
+          }
+          mkdir ./dependency_reports
+          dart run melos exec -fo -- generate_report "$(pwd)/dependency_reports/"
 
       - name: Upload dependency report
         uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
         with:
-          name: dependency_reports.txt
-          path: ./dependency_reports.txt
+          name:
+            at_mono_dependency_reports_${{
+            needs.build_branch.outputs.branch_name }}
+          path: ./dependency_reports
           if-no-files-found: error
