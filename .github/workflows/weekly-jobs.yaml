@@ -113,18 +113,14 @@ jobs:
       - name: Create dependency report
         run: |
           echo <<-EOF >./generate_report.sh
-            function generate_report() {
-              timestamp=$(date -u +%s);
-              # we truncate input with `head -n 10` before the grep -v
-              # because inverse grep will always process the entire input
-              package=$(dart pub deps | head -n 10 | grep -v 'SDK' | head -n 1 | cut -d' ' -f1 | tr -d '[:space:]');
-              filename="./${timestamp}_${package}_report.txt"
-              dart pub outdated | tee "$filename"
-              dart analyze | tee "$filename"
-              echo "copying $filename to $1"
-              mv $filename "$1"
-            }
-            generate_report $@
+            timestamp=$(date -u +%s);
+            package=$(dart pub deps | head -n 10 | grep -v 'SDK' | head -n 1 | cut -d' ' -f1 | tr -d '[:space:]');
+            filename="./${timestamp}_${package}_report.txt"
+            echo "running in package: $package"
+            dart pub outdated | tee "$filename"
+            dart analyze | tee "$filename"
+            echo "copying $filename to $1"
+            mv $filename "$1"
           EOF
           chmod u+x ./generate_report.sh
           mkdir ./dependency_reports
