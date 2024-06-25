@@ -114,7 +114,6 @@ jobs:
         run: |
           echo <<-EOF >./generate_report.sh
             function generate_report() {
-              script_dir="$(dirname -- "$0")"
               timestamp=$(date -u +%s);
               # we truncate input with `head -n 10` before the grep -v
               # because inverse grep will always process the entire input
@@ -122,13 +121,14 @@ jobs:
               filename="./${timestamp}_${package}_report.txt"
               dart pub outdated | tee "$filename"
               dart analyze | tee "$filename"
-              mv $filename "$script_dir/dependency_reports/"
+              echo "copying $filename to $1"
+              mv $filename "$1"
             }
             generate_report $@
           EOF
           chmod u+x ./generate_report.sh
           mkdir ./dependency_reports
-          dart run melos exec -fo -- "$(pwd)/generate_report.sh"
+          dart run melos exec -fo -- "$(pwd)/generate_report.sh \"$(pwd)/dependency_reports\""
 
       - name: Upload dependency report
         uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
