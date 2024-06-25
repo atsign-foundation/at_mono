@@ -113,14 +113,15 @@ jobs:
       - name: Create dependency report
         run: |
           echo <<-EOF >./generate_report.sh
+            dst="$1/"
             timestamp=$(date -u +%s);
             package=$(dart pub deps | head -n 10 | grep -v 'SDK' | head -n 1 | cut -d' ' -f1 | tr -d '[:space:]');
             filename="./${timestamp}_${package}_report.txt"
             echo "running in package: $package"
             dart pub outdated | tee "$filename"
             dart analyze | tee "$filename"
-            echo "copying $filename to $1"
-            mv $filename "$1"
+            echo "copying $filename to $dst"
+            mv $filename "$dst"
           EOF
           chmod u+x ./generate_report.sh
           mkdir ./dependency_reports
@@ -132,5 +133,5 @@ jobs:
           name:
             at_mono_dependency_reports_${{
             needs.build_branch.outputs.branch_name }}
-          path: ./dependency_reports
+          path: ./dependency_reports/
           if-no-files-found: error
