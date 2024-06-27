@@ -41,15 +41,17 @@ jobs:
 
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1 #v2.16.0
         with:
-          channel: 'stable'
+          channel: "stable"
           cache: ${{ needs.build_branch.outputs.build_id != '' }}
           cache-key: ${{ needs.build_branch.outputs.build_id }}
 
       - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
         with:
-          python-version: '3.9'
+          python-version: "3.9"
 
       - uses: ts-graphviz/setup-graphviz@b1de5da23ed0a6d14e0aeee8ed52fdd87af2363c # v2.0.2
+
+      - uses: ./.github/composite/update-submodules
 
       - name: Install melos
         run: dart pub get
@@ -74,9 +76,21 @@ jobs:
           python ./tools/package_diagrams.py "$TMP/melos-gviz.gv" "$GITHUB_WORKSPACE/docs/diagrams"
       - name: Authenticate GitHub CLI
         run: |
-          echo -e ${{ secrets.MY_GITHUB_TOKEN }} | gh auth login --with-token 
+          echo -e ${{ secrets.MY_GITHUB_TOKEN }} | gh auth login --with-token
+
+      - name: Check for changes
+        id: git-status
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "There are changes to commit"
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No changes to commit"
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Commit changes
+        if: ${{ steps.git-status.outputs.has_changes == 'true' }}
         run: |
           git config --global user.name library-action[bot]
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
@@ -84,6 +98,7 @@ jobs:
           git push origin ${{ needs.backup.outputs.branch_name }}
 
       - name: create pull request
+        if: ${{ steps.git-status.outputs.has_changes == 'true' }}
         run: |
           gh pr create \
             --base 'trunk' \
@@ -92,3 +107,31 @@ jobs:
             --title 'ci: backup ${{ needs.backup.outputs.branch_name }}' \
             --body 'Sync weekly job' || \
           echo "Already created?";
+
+      - run: dart run melos bootstrap
+
+      - name: Create dependency report
+        run: |
+          cat <<-EOF >./generate_report.sh
+            dst="$(pwd)/dependency_reports/"
+            timestamp=\$(date -u +%s);
+            package=\$(dart pub deps | head -n 10 | grep -v 'SDK' | head -n 1 | cut -d' ' -f1 | tr -d '[:space:]');
+            filename="./\${timestamp}_\${package}_report.txt"
+            echo "running in package: \$package"
+            dart pub outdated | tee "\$filename"
+            dart analyze | tee "\$filename"
+            echo "copying \$filename to \$dst"
+            mv \$filename "\$dst"
+          EOF
+          chmod +x ./generate_report.sh
+          mkdir ./dependency_reports
+          dart run melos exec -fo -- $(pwd)/generate_report.sh
+
+      - name: Upload dependency report
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name:
+            at_mono_dependency_reports_${{
+            needs.build_branch.outputs.branch_name }}
+          path: ./dependency_reports/
+          if-no-files-found: error
