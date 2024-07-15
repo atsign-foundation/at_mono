@@ -16,7 +16,7 @@ jobs:
 
     if: ${{ github.repository == 'atsign-foundation/at_mono' }}
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: Generate build id
         id: build
@@ -31,7 +31,7 @@ jobs:
     needs: build
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           ref: ${{ needs.build.outputs.commit_ref }}
           submodules: recursive
