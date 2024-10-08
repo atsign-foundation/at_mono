@@ -12,7 +12,7 @@ jobs:
       build_id: ${{ steps.build.outputs.build_id }}
       branch_name: ${{ steps.branch_name.outputs.generated }}
     steps:
-      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
       - name: Generate build id
         id: build
         uses: ./.github/composite/build-id
@@ -34,7 +34,7 @@ jobs:
     needs:
       - build_branch
     steps:
-      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
         with:
           ref: ${{ needs.build_branch.outputs.branch_name }}
           submodules: true
@@ -128,7 +128,7 @@ jobs:
           dart run melos exec -fo -- $(pwd)/generate_report.sh
 
       - name: Upload dependency report
-        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
+        uses: actions/upload-artifact@604373da6381bf24206979c74d06a550515601b9 # v4.4.1
         with:
           name:
             at_mono_dependency_reports_${{
