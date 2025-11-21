@@ -12,7 +12,7 @@ jobs:
       build_id: ${{ steps.build.outputs.build_id }}
       branch_name: ${{ steps.branch_name.outputs.generated }}
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Generate build id
         id: build
         uses: ./.github/composite/build-id
@@ -34,7 +34,7 @@ jobs:
     needs:
       - build_branch
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
           ref: ${{ needs.build_branch.outputs.branch_name }}
           submodules: true
